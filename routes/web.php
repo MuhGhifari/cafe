@@ -16,3 +16,15 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Auth::routes();
+
+Route::prefix('/admin')->name('admin.')->middleware('admin')->group(function(){
+  Route::get('/index', 'AdminController@index')->name('index');
+});
+
+Route::prefix('/kasir')->name('kasir.')->middleware('kasir')->group(function(){
+  Route::get('/index', 'KasirController@index')->name('index');
+});
+
+Route::get('/home', 'HomeController@index')->name('home');

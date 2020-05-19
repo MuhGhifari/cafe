@@ -19,12 +19,18 @@ Route::get('/', function () {
 
 Auth::routes();
 
+
 Route::prefix('/admin')->name('admin.')->middleware('admin')->group(function(){
   Route::get('/index', 'AdminController@index')->name('index');
+  
 });
 
 Route::prefix('/kasir')->name('kasir.')->middleware('kasir')->group(function(){
   Route::get('/index', 'KasirController@index')->name('index');
 });
+Route::prefix('/member')->name('member')->middleware('member')->group(function(){
+  Route::get('/','MemberController@index@index')->name('index');
+});
+Route::get('logout', 'Auth\LoginController@logout');
 
 Route::get('/home', 'HomeController@index')->name('home');

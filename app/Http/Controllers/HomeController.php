@@ -28,7 +28,8 @@ class HomeController extends Controller
         }
         elseif (auth()->user()->role == 'kasir') {
             return redirect()->route('kasir.index');
-        }else{
+        }
+        else{
             return view('home');
         }
     }

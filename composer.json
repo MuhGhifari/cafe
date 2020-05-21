@@ -40,6 +40,12 @@
         "classmap": [
             "database/seeds",
             "database/factories"
+        ],
+        "files": [
+            "app/Helpers/FormatUang.php",
+            "app/Helpers/interval.php",
+            "app/Helpers/FormatTanggal.php",
+            "app/Helpers/simpleEncrypt.php"
         ]
     },
     "autoload-dev": {

@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('home');
 });
 
 Auth::routes();
@@ -28,9 +28,16 @@ Route::prefix('/admin')->name('admin.')->middleware('admin')->group(function(){
 Route::prefix('/kasir')->name('kasir.')->middleware('kasir')->group(function(){
   Route::get('/index', 'KasirController@index')->name('index');
 });
+
 Route::prefix('/member')->name('member')->middleware('member')->group(function(){
-  Route::get('/','MemberController@index@index')->name('index');
+  Route::get('/','MemberController@index')->name('index');
 });
+
+Route::prefix('/products')->name('products.')->group(function(){
+  Route::get('/categories/{id}/{slug}', 'HomeController@showCategory')->name('category');
+});
+
+
 Route::get('logout', 'Auth\LoginController@logout');
 
 Route::get('/home', 'HomeController@index')->name('home');

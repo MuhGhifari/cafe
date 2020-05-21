@@ -28,12 +28,12 @@
 				</div>
 				<div class="col-lg-3">
 					<div class="header__cart">
-						 <div class="header__top__right__auth">
-                                <a href="{{ route('login') }}"><i class="fa fa-user"></i>Sign In</a>
-                         </div>
-                         <div class="header__top__right__auth">
-                                <a href="{{ route('register') }}"><i class="fa fa-user"></i> Register </a>
-                         </div>
+					 <div class="header__top__right__auth">
+              <a href="{{ route('login') }}"><i class="fa fa-user"></i>Sign In</a>
+           </div>
+           <div class="header__top__right__auth">
+              <a href="{{ route('register') }}"><i class="fa fa-user"></i> Register </a>
+           </div>
 					</div>
 				</div>
 			</div>

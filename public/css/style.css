@@ -47,7 +47,7 @@ h6 {
 	margin: 0;
 	color: #111111;
 	font-weight: 400;
-	font-family: "Cairo", sans-serif;
+	font-family: "Nunito", sans-serif;
 }
 
 h1 {
@@ -1104,6 +1104,10 @@ ol {
 	display: block;
 }
 
+.sidebar__item li.active a {
+	color: #7fad39;
+}
+
 .sidebar__item .latest-product__text {
 	position: relative;
 }
@@ -1645,6 +1649,13 @@ ol {
 
 .product__pagination a:hover,
 .blog__pagination a:hover {
+	background: #7fad39;
+	border-color: #7fad39;
+	color: #ffffff;
+}
+
+.product__pagination a.active,
+.blog__pagination a.active {
 	background: #7fad39;
 	border-color: #7fad39;
 	color: #ffffff;

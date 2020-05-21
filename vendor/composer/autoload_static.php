@@ -28,6 +28,10 @@ class ComposerStaticInita199e18a1a0fb2385240693d53178610
         'b6ec61354e97f32c0ae683041c78392a' => __DIR__ . '/..' . '/scrivo/highlight.php/HighlightUtilities/functions.php',
         'ed962a97bd972bc82007176b647d4e36' => __DIR__ . '/..' . '/facade/ignition/src/helpers.php',
         '6124b4c8570aa390c21fafd04a26c69f' => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy/deep_copy.php',
+        '008d4ec4e4cd79c40916405065e152b6' => __DIR__ . '/../..' . '/app/Helpers/FormatUang.php',
+        '429c08fedc062007559cfcdd6b0f47e2' => __DIR__ . '/../..' . '/app/Helpers/interval.php',
+        'da6285eeb406cd0a21d2ee147f482e68' => __DIR__ . '/../..' . '/app/Helpers/FormatTanggal.php',
+        'e0e6417c12e5191e6f3729e9dd4ee300' => __DIR__ . '/../..' . '/app/Helpers/simpleEncrypt.php',
     );
 
     public static $prefixLengthsPsr4 = array (
@@ -478,6 +482,8 @@ class ComposerStaticInita199e18a1a0fb2385240693d53178610
         'App\\Http\\Controllers\\Controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Controller.php',
         'App\\Http\\Controllers\\HomeController' => __DIR__ . '/../..' . '/app/Http/Controllers/HomeController.php',
         'App\\Http\\Controllers\\KasirController' => __DIR__ . '/../..' . '/app/Http/Controllers/KasirController.php',
+        'App\\Http\\Controllers\\MemberController' => __DIR__ . '/../..' . '/app/Http/Controllers/MemberController.php',
+        'App\\Http\\Controllers\\Member\\ContactusController' => __DIR__ . '/../..' . '/app/Http/Controllers/Member/ContactusController.php',
         'App\\Http\\Kernel' => __DIR__ . '/../..' . '/app/Http/Kernel.php',
         'App\\Http\\Middleware\\Admin' => __DIR__ . '/../..' . '/app/Http/Middleware/Admin.php',
         'App\\Http\\Middleware\\Authenticate' => __DIR__ . '/../..' . '/app/Http/Middleware/Authenticate.php',

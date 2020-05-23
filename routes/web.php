@@ -29,7 +29,9 @@ Route::get('/admin/create','UserController@create')->name('admin.create')->middl
 
 Route::prefix('/kasir')->name('kasir.')->middleware('kasir')->group(function(){
   Route::get('/index', 'KasirController@index')->name('index');
+  
 });
+Route::get('/shop','KasirController@addOrder')->name('shopcart')->middleware('kasir');
 
 Route::prefix('/member')->name('member')->middleware('member')->group(function(){
   Route::get('/','MemberController@index')->name('index');

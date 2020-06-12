@@ -1,6 +1,9 @@
-@extends('layouts.app')
+@extends('layouts.new')
 
 @section('content')
+
+
+<br>
 <div class="d-flex" id="wrapper">
 
     <!-- Sidebar -->
@@ -8,8 +11,9 @@
       <div class="sidebar-heading">DALGONA</div>
       <div class="list-group list-group-flush">
         <a href="#" class="list-group-item list-group-item-action bg-light">Dashboard</a>
-        <a href="#" class="list-group-item list-group-item-action bg-light">Users</a>
-        <a href="#" class="list-group-item list-group-item-action bg-light">Product</a>
+        <a href="{{ route('admin.user') }}" class="list-group-item list-group-item-action bg-light">Users</a>
+        <a href="{{ route('admin.product') }}" class="list-group-item list-group-item-action bg-light">Product</a>
+        <a href="" class="list-group-item list-group-item-action bg-light">Laporan</a>
       </div>
     </div>
     <!-- /#sidebar-wrapper -->

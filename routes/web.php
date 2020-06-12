@@ -22,16 +22,14 @@ Auth::routes();
 
 Route::prefix('/admin')->name('admin.')->middleware('admin')->group(function(){
   Route::get('/index', 'AdminController@index')->name('index');
- 
+  Route::get('/user', 'UserController@index')->name('user');
+  Route::get('/user/create', 'UserController@create')->name('create');
 });
-Route::get('/admin/user','UserController@index')->name('admin.user')->middleware('admin');
-Route::get('/admin/create','UserController@create')->name('admin.create')->middleware('admin');
 
 Route::prefix('/kasir')->name('kasir.')->middleware('kasir')->group(function(){
   Route::get('/index', 'KasirController@index')->name('index');
-  
+  Route::get('/shop', 'KasirController@addOrder')->name('shopcart');
 });
-Route::get('/shop','KasirController@addOrder')->name('shopcart')->middleware('kasir');
 
 Route::prefix('/member')->name('member')->middleware('member')->group(function(){
   Route::get('/','MemberController@index')->name('index');

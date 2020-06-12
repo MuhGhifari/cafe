@@ -1,49 +1,59 @@
-@extends('layouts.new')
+@extends('layouts.app')
 
 @section('content')
-<br>
-<div class="d-flex" id="wrapper">
-
-    <!-- Sidebar -->
-    <div class="bg-light border-right" id="sidebar-wrapper">
-      <div class="sidebar-heading">DALGONA</div>
-      <div class="list-group list-group-flush">
-        <a href="#" class="list-group-item list-group-item-action bg-light">Dashboard</a>
-        <a href="{{ route('shopcart') }}" class="list-group-item list-group-item-action bg-light">Shop</a>
-        <a href="#" class="list-group-item list-group-item-action bg-light">Product</a>
-      </div>
-    </div>
-    <!-- /#sidebar-wrapper -->
-
-    <!-- Page Content -->
-    <div id="page-content-wrapper">
-
-      <nav class="navbar navbar-expand-lg navbar-light fixed-top bg-light border-bottom">
-       
-
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
-            <li class="nav-item active">
-              <a class="nav-link" href="">{{ Auth::user()->name }}<span class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{{ route('logout') }}">Logout</a>
-            </li>
-          </ul>
+  <!-- Product Section Begin -->
+  <section class="product spad">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-3 col-md-5">
+          <div class="sidebar">
+            <div class="sidebar__item">
+              <h4>Kategori</h4>
+              <ul>
+                <li class="{{ Request::is('kasir.index') ? 'active' : '' }}"><a href="{{ route('kasir.index') }}">Semua Produk</a></li>
+                @foreach($categories as $category)
+                <li class="{{ Request::is('products/categories/'.$category->id.'/'.str_replace(' ', '-', strtolower($category->name))) ? 'active' : '' }}"><a href="{{ route('products.category', ['id' => $category->id, 'slug' => str_replace(' ', '-', strtolower($category->name))]) }}">{{ $category->name }}</a></li>
+                @endforeach
+              </ul>
+            </div>
+          </div>
         </div>
-      </nav>
-
-      <div class="container-fluid">
-        <h1 class="mt-4">Simple Sidebar</h1>
-        <p>The starting state of the menu will appear collapsed on smaller screens, and will appear non-collapsed on larger screens. When toggled using the button below, the menu will change.</p>
-        <p>Make sure to keep all page content within the <code>#page-content-wrapper</code>. The top navbar is optional, and just for demonstration. Just create an element with the <code>#menu-toggle</code> ID which will toggle the menu when clicked.</p>
+        <div class="col-lg-9 col-md-7">
+          <!-- Search -->
+          <div class="col-lg-9">
+            <div class="hero__search">
+              <div class="hero__search__form">
+                <form action="#">
+                  <input type="text" placeholder="Search what do yo u need?">
+                  <button type="submit" class="site-btn">SEARCH</button>
+                </form>
+              </div>
+            </div>
+          </div>
+          <!-- End Search -->
+          <div class="row">
+            @foreach($products as $product)
+            <div class="col-lg-4 col-md-6 col-sm-6">
+              <div class="product__item">
+                <div class="product__item__pic set-bg" data-setbg="{{ asset('img/products/'.$product->image)}}">
+                  <ul class="product__item__pic__hover">
+                    <li><a href="#"><i class="fa fa-heart"></i></a></li>
+                    <li><a href="#"><i class="fa fa-retweet"></i></a></li>
+                    <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
+                  </ul>
+                </div>
+                <div class="product__item__text">
+                  <h6><a href="#">{{ $product->name }}</a></h6>
+                  <h5>{{ rupiah($product->price) }}</h5>
+                </div>
+              </div>
+            </div>
+            @endforeach
+          </div>
+          {{ $products->links('partials.pagination') }}
+        </div>
       </div>
     </div>
-    <!-- /#page-content-wrapper -->
+  </section><br>
 
-  </div>
 @endsection

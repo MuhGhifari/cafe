@@ -10,9 +10,14 @@
       <div class="col-lg-6">
         <nav class="header__menu">
           <ul>
-            <li class="active"><a href="./shop-grid.html">Home</a></li>
+            @if(auth()->user()->role == 'kasir')
+            <li class="active"><a href="{{ route('home') }}">Menu</a></li>
+            <li><a href="">Pesanan</a></li>
+            @else
+            <li class="active"><a href="{{ route('home') }}">Home</a></li>
             <li><a href="">Contact</a></li>
             <li><a href="">Special Offer</a></li>
+            @endif
           </ul>
         </nav>
       </div>

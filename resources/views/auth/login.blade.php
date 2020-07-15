@@ -70,8 +70,7 @@
 </div>
 @endsection --}}
 
-@extends('layouts.new')
-@section('content')	
+{{-- @section('content')	
 	<div class="limiter">
 		<div class="container-login100">
 			<div class="wrap-login100">
@@ -138,4 +137,161 @@
 			</div>
 		</div>
 	</div>
+@endsection --}}
+
+@extends('layouts.new')
+@section('content')
+
+<meta charset="utf-8">
+
+<style>
+	*{
+	box-sizing: border-box;
+}
+body{
+	margin: 0;
+	height: 100vh;
+	width: 100vw;
+	overflow: hidden;
+	font-weight: 700;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	color: #555;
+	background: #ecf0f3;
+}
+.login-div{
+	width: 430px;
+	height: 700px;
+	padding: 60px 35px 35px 35px;
+	border-radius: 40px;
+	background: #ecf0f3;
+	box-shadow: 13px 13px 20px #cbced1,
+				-13px -13px  20px #ffffff;
+}
+.logo {
+  background:url('img/logocafe.png');
+  width:100px;
+  height: 100px;
+  border-radius: 50%;
+  margin:0 auto;
+  box-shadow: 
+  /* logo shadow */
+  0px 0px 2px #5f5f5f,
+  /* offset */
+  0px 0px 0px 5px #ecf0f3,
+  /*bottom right */
+  8px 8px 15px #a7aaaf,
+  /* top left */
+  -8px -8px 15px #ffffff
+  ;
+}
+.title {
+  text-align: center;
+  font-size: 28px;
+  padding-top: 24px;
+  letter-spacing: 0.5px;
+}
+.sub-title {
+  text-align: center;
+  font-size: 15px;
+  padding-top: 7px;
+  letter-spacing: 3px;
+}
+.fields {
+  width: 100%;
+  padding: 75px 5px 5px 5px;
+}
+.fields input {
+  border: none;
+  outline:none;
+  background: none;
+  font-size: 18px;
+  color: #555;
+  padding:20px 10px 20px 5px;
+}
+.username, .password {
+  margin-bottom: 30px;
+  border-radius: 25px;
+  padding-left: 20px;
+  box-shadow: inset 8px 8px 8px #cbced1,
+              inset -8px -8px 8px #ffffff;
+}
+.fields svg {
+  height: 22px;
+  margin:0 10px -3px 25px;
+}
+.signin-button {
+  outline: none;
+  border:none;
+  cursor: pointer;
+  width:100%;
+  height: 60px;
+  border-radius: 30px;
+  font-size: 20px;
+  font-weight: 700;
+  font-family: 'Lato', sans-serif;
+  color:#fff;
+  text-align: center;
+  background: #24cfaa;
+  box-shadow: 3px 3px 8px #b1b1b1,
+              -3px -3px 8px #ffffff;
+  transition: 0.5s;
+}
+.signin-button:hover {
+  background:#2fdbb6;
+}
+.signin-button:active {
+  background:#1da88a;
+}
+.link {
+  padding-top: 20px;
+  text-align: center;
+}
+.link a {
+  text-decoration: none;
+  color:#aaa;
+  font-size: 15px;
+}
+</style>
+
+<form  action="{{ route('login') }}" method="POST" >
+	{{ csrf_field() }}
+		
+		<div class="login-div">
+			<div class="logo"></div>
+		  		<div class="title">Dalgona Coffee</div>
+		  		<div class="sub-title">Cafe</div>
+		  	<div class="fields">
+			    <div class="username">
+			    	<i class="fa fa-user" aria-hidden="true"><input type="username" id="username" name="username" placeholder="username or email"  value="{{ old('username') }}" required autocomplete="off"/></i>
+
+			    	@error('username')
+									<span class="invalid-feedback" role="alert">
+										<strong>{{ $message }}</strong>
+									</span>
+					@enderror
+
+			    </div>
+			    
+			    <div class="password">
+			    	<i class="fa fa-lock" aria-hidden="true"><input type="password" placeholder="password"  id="password" name="password"/></i>
+
+			    	@error('password')
+									<span class="invalid-feedback" role="alert">
+										<strong>{{ $message }}</strong>
+									</span>
+					@enderror
+
+			    </div>
+		  	</div>
+		  
+		  <button class="signin-button">Login</button>
+		  
+		  <div class="link">
+		    <a href="#">Forgot password?</a> or <a href="#">Sign up</a>
+		  </div>
+		
+		</div>
+</form>
 @endsection

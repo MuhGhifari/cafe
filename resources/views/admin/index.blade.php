@@ -3,6 +3,34 @@
 @section('content')
 
 
+<style type="text/css">
+  .jumbotron{
+  background: linear-gradient(90deg, rgba(242, 70, 69, 1), rgba(235, 192, 141, 0.867));
+  background-size: cover;
+  height: 540px;
+  text-align: center;
+  position: relative;
+}
+
+.jumbotron .container{
+  z-index: 1;
+  position: relative;
+}
+
+.jumbotron .display-4{
+  color: white;
+  
+  margin-top: 150px;
+  font-weight: 200;
+  text-shadow: 2px 1px 2px rgba(0,0,0,0.7);
+  font-size: 35px;
+  margin-bottom: 20px;
+}
+.jumbotron .display-4 span{
+  font-weight: 500; 
+}
+</style>
+
 <br>
 <div class="d-flex" id="wrapper">
 
@@ -10,10 +38,10 @@
     <div class="bg-light border-right" id="sidebar-wrapper">
       <div class="sidebar-heading">DALGONA</div>
       <div class="list-group list-group-flush">
-        <a href="#" class="list-group-item list-group-item-action bg-light">Dashboard</a>
+        <a href="" class="list-group-item list-group-item-action bg-light">Dashboard</a>
         <a href="{{ route('admin.user') }}" class="list-group-item list-group-item-action bg-light">Users</a>
         <a href="{{ route('admin.product') }}" class="list-group-item list-group-item-action bg-light">Product</a>
-        <a href="" class="list-group-item list-group-item-action bg-light">Laporan</a>
+        <a href="{{ route('admin.cetak') }}" class="list-group-item list-group-item-action bg-light">Laporan</a>
       </div>
     </div>
     <!-- /#sidebar-wrapper -->
@@ -40,11 +68,14 @@
         </div>
       </nav>
 
-      <div class="container-fluid">
-        <h1 class="mt-4">Simple Sidebar</h1>
-        <p>The starting state of the menu will appear collapsed on smaller screens, and will appear non-collapsed on larger screens. When toggled using the button below, the menu will change.</p>
-        <p>Make sure to keep all page content within the <code>#page-content-wrapper</code>. The top navbar is optional, and just for demonstration. Just create an element with the <code>#menu-toggle</code> ID which will toggle the menu when clicked.</p>
+<br>
+    <div class="jumbotron jumbotron-fluid">
+      <div class="container">
+       <h1 class="display-4">Welcome {{ Auth::user()->name }} <span>Have a Nice Day</span><br> Happy Working :)</h1>
       </div>
+  </div>
+
+<!-- end -->
     </div>
     <!-- /#page-content-wrapper -->
 

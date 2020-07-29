@@ -289,7 +289,7 @@ body{
 		  <button class="signin-button">Login</button>
 		  
 		  <div class="link">
-		    <a href="#">Forgot password?</a> or <a href="#">Sign up</a>
+		    <a href="#">Forgot password?</a> or <a href="{{ route('register') }}">Sign up</a>
 		  </div>
 		
 		</div>

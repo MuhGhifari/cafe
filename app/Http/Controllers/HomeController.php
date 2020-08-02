@@ -9,9 +9,19 @@ use App\Category;
 class HomeController extends Controller
 {
     public function index(){
-        $products = Product::orderBy('created_at', 'DESC')->paginate(9);
-        $categories = Category::all();
-        return view('home', compact('products', 'categories'));
+        if (!empty(auth()->user())) {
+            if (auth()->user()->role == 'admin') {
+                return redirect()->route('admin.index');
+            }
+            elseif (auth()->user()->role == 'kasir') {
+                return redirect()->route('kasir.index');
+            }
+        }
+        else{
+            $products = Product::orderBy('created_at', 'DESC')->paginate(9);
+            $categories = Category::all();
+            return view('home', compact('products', 'categories'));
+        }
     }
 
     public function auth()

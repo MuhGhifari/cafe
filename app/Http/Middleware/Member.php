@@ -15,10 +15,13 @@ class Member
      */
     public function handle($request, Closure $next)
     {
-        if(auth()->user()->role == 'member'){
-            return $next($request);
+        if (!empty(auth()->user())) {
+            if(auth()->user()->role == 'member'){
+                return $next($request);
+            }else{
+                return redirect('login');
+            }
         }
-
-        return $next($request);
+        return redirect('login');
     }
 }

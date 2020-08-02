@@ -13,8 +13,8 @@
           @if(Route::has('login'))
             @auth
               @if(auth()->user()->role == 'kasir')
-              <li class="active"><a href="{{ route('home') }}">Menu</a></li>
-              <li><a href="">Pesanan</a></li>
+              <li class="active"><a href="{{ route('kasir.index') }}">Pesanan Baru</a></li>
+              <li><a href="#">Pesanan Online</a></li>
               @endif
             @else
             <li class="active"><a href="{{ route('home') }}">Home</a></li>

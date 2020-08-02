@@ -14,13 +14,12 @@
 
 	<!-- Styles -->
    @include('partials.css')
-   @yield('stylesheets')
 </head>
 <body>
-	  	@include('partials.nav')
+	  <main class="py-4">
 			@yield('content')
+		</main>
 </body>
  	<!-- Scripts -->
  	@include('partials.js')
- 	@yield('scripts')
 </html>

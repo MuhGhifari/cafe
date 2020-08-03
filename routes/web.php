@@ -35,11 +35,23 @@ Route::prefix('/kasir')->name('kasir.')->middleware('kasir')->group(function(){
   Route::get('/add-item/{product_id}', 'KasirController@addItem')->name('add.item');
   Route::post('/add-item-quantity', 'KasirController@addItemQuantity')->name('add.item.quantity');
   Route::get('/remove-item/{product_id}', 'KasirController@removeItem')->name('remove.item');
-  Route::get('/test', 'KasirController@test')->name('test');
 });
 
-Route::prefix('/member')->name('member')->middleware('member')->group(function(){
-  Route::get('/','MemberController@index')->name('index');
+
+Route::prefix('/member')->name('member.')->middleware('member')->group(function(){
+  Route::get('/','HomeController@index')->name('index');
+  Route::get('/search', 'MemberController@search')->name('search');
+  Route::post('/order', 'MemberController@createOrder')->name('order');
+  Route::get('/cancel-order/{order_id}', 'MemberController@deleteOrder')->name('delete.order');
+  Route::post('/save-transaction', 'MemberController@saveTransaction')->name('transaction.save');
+  Route::get('/add-item/{product_id}', 'MemberController@addItem')->name('add.item');
+  Route::post('/add-item-quantity', 'MemberController@addItemQuantity')->name('add.item.quantity');
+  Route::get('/remove-item/{product_id}', 'MemberController@removeItem')->name('remove.item');
+  Route::get('/shopping-cart', 'MemberController@showCart')->name('cart');
+  Route::get('/shopping-cart/add', 'MemberController@saveItem')->name('add.item');
+  Route::get('/save-favorite/{product_id}', 'MemberController@saveFavorite')->name('save.favorite');
+  Route::get('/remove-favorite/{id}', 'MemberController@removeFavorite')->name('remove.favorite');
+  Route::get('/test', 'MemberController@test')->name('test');
 });
 
 Route::prefix('/products')->name('products.')->group(function(){

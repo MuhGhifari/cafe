@@ -48,4 +48,8 @@ class User extends Authenticatable
     public function finishedOrder(){
         return $this->orders()->where('status', '=', 'selesai');
     }
+
+    public function favorites(){
+        return $this->hasMany('App\Favorite', 'user_id');
+    }
 }

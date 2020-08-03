@@ -29,11 +29,6 @@ class KasirController extends Controller
     }
   }
 
-  public function test(){
-    
-    dd($result);
-  }
-
   public function createOrder(Request $request){
     $order = new Order();
     $order->name = $request->name;

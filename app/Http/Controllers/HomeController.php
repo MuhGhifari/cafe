@@ -16,6 +16,11 @@ class HomeController extends Controller
             elseif (auth()->user()->role == 'kasir') {
                 return redirect()->route('kasir.index');
             }
+            else{
+                $products = Product::orderBy('created_at', 'DESC')->paginate(9);
+                $categories = Category::all();
+                return view('home', compact('products', 'categories'));
+            }
         }
         else{
             $products = Product::orderBy('created_at', 'DESC')->paginate(9);

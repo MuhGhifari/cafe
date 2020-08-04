@@ -176,11 +176,17 @@
 
 		//ambil & tampilkan data
 		function fetch_data(page, query){
+			var disabled = false;
+			if ($('#tunai').prop('disabled') == true) {disabled = true;}
 			$.ajax({
 				url:"/kasir/search?query="+query+"&page="+page,
 				success:function(data){
+						console.log(disabled);
 					$('#result').html('');
 					$('#result').html(data);
+					if (disabled == true) {
+						$('#result').find('.add-btn').addClass('disabled');
+					}
 				}
 			});
 		}
@@ -397,7 +403,7 @@
 			$('#checkout').css('display', 'none');
 			$('.quantity').prop('disabled', false);
 			$('.remove-btn').removeClass('disabled');
-			$('.add-btn').addClass('disabled');
+			$('.add-btn').removeClass('disabled');
 		});
 
 		// simpan transaksi ke database

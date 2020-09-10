@@ -17,7 +17,8 @@ class CreateOrdersTable extends Migration
             $table->id();
             $table->string('name');
             $table->integer('user_id');
-            $table->enum('status', ['selesai', 'menunggu'])->default('menunggu');
+            $table->string('invoice')->unique()->nullable();
+            $table->enum('status', ['selesai', 'menunggu', 'diproses'])->default('menunggu');
             $table->timestamps();
         });
     }

@@ -43,44 +43,24 @@
 						<div class="hero__search">
 							<div class="hero__search__form">
 								<form action="#">
-									<input type="text" placeholder="Search what do yo u need?">
-									<button type="submit" class="site-btn">SEARCH</button>
+									<input style="width: 100%" type="text" id="search" name="search" placeholder="Cari produk..." onkeypress="return event.keyCode != 13;"><!-- keycode 13 = enter key -->
+										<button class="site-btn" disabled>PENCARIAN</button>
 								</form>
 							</div>
 						</div>
 					</div>
 					<!-- End Search -->
-					<div class="row">
-						@foreach($products as $product)
-						<div class="col-lg-4 col-md-6 col-sm-6">
-							<div class="product__item">
-								<div class="product__item__pic set-bg" data-setbg="{{ asset('img/products/'.$product->image)}}">
-									<ul class="product__item__pic__hover">
-										@if(Route::has('login'))
-											@auth
-												<input type="hidden" class="product_id" name="product_id" value="{{ $product->id }}">
-												@if($product->favorited() == true)
-												<li><a title="Tambah ke Favorit" style="background: #7fad39; border-color: #7fad39; color: white;" class="favorite remove" href="{{ route('member.remove.favorite', $product->getFaveId()) }}"><i class="fa fa-heart"></i></a></li>
-												@else
-												<li><a title="Tambah ke Favorit" class="favorite" href="{{ route('member.save.favorite', $product->id) }}"><i class="fa fa-heart"></i></a></li>
-												@endif
-												<li><a href="{{ route('member.add.item') }}"><i class="fa fa-shopping-cart"></i></a></li>
-											@else
-												<li><a href="{{ route('login') }}"><i class="fa fa-heart"></i></a></li>
-												<li><a href="{{ route('login') }}"><i class="fa fa-shopping-cart"></i></a></li>
-											@endauth
-										@endif
-									</ul>
-								</div>
-								<div class="product__item__text">
-									<h6><a href="#">{{ $product->name }}</a></h6>
-									<h5>{{ rupiah($product->price) }}</h5>
-								</div>
-							</div>
-						</div>
-						@endforeach
+					<div id="product-container">
+					@auth
+					@if(count(auth()->user()->waitingOrder) > 0)
+					<input type="hidden" name="order_id" id="order_id" value="{{ auth()->user()->waitingOrder->first()->id }}">
+					@else
+					<input type="hidden" name="order_id" id="order_id">
+					@endif
+					@endauth
+					@include('partials.product_data')
+					<input type="hidden" name="hidden_page" id="hidden_page" value="1">
 					</div>
-					{{ $products->links('partials.pagination') }}
 				</div>
 			</div>
 		</div>
@@ -89,7 +69,7 @@
 
 @section('scripts')
 <script type="text/javascript">
-	$(document).ready(function(){
+	$(function(){
 
 		// token csrf untuk ajax
 		$.ajaxSetup({
@@ -98,7 +78,52 @@
 	    }
 		});
 
-		$('.favorite').on('click', function(event){
+		//ambil & tampilkan data
+		function fetch_data(page, query){
+			$.ajax({
+				url:"/search?query="+query+"&page="+page,
+				success:function(data){
+					$('#product-container').html('');
+					$('#product-container').html(data);
+
+					// initialize tooltip
+					$("[data-toggle='tooltip']").tooltip({
+			      trigger : 'hover'
+			    });
+				}
+			});
+		}
+
+		//waktu delay function keyup
+		function delay(fn, ms) {
+		  let timer = 0
+		  return function(...args) {
+		    clearTimeout(timer)
+		    timer = setTimeout(fn.bind(this, ...args), ms || 0)
+		  }
+		}
+
+		//function livesearch (pencarian langsung)
+		$('#search').keyup(delay(function(){
+			var query = $('#search').val();
+			var page = $('#hidden_page').val();
+			fetch_data(page, query);
+		}, 400));//delay 400 miliseconds
+
+		//pagination
+		$(document).on('click', '.product__pagination a', function(event){
+			event.preventDefault();
+			var page = $(this).attr('href').split('page=')[1];
+			$('#hidden_page').val(page);
+			var query = $('#search').val();
+
+			$('a').removeClass('active');
+			$(this).parent().addClass('active');
+			fetch_data(page, query);
+		});
+
+		//	menambah atau menghapus item favorit
+		$(document).on('click', '.favorite', function(event){
 			event.preventDefault();
 			var thisElement = $(this);
 			var product_id = thisElement.closest('ul').find('.product_id').val();
@@ -114,6 +139,8 @@
 						newLink = "{{ route('member.save.favorite', ':id') }}";
 						newLink = newLink.replace(':id', product_id);
 						thisElement.attr('href', newLink);
+						var newTitle = 'Tambah ke favorit';
+						thisElement.attr('title', newTitle).attr('data-original-title', newTitle).tooltip('update').tooltip('show');;
 					}
 					else{
 						thisElement.css('background', '#7fad39');	
@@ -122,11 +149,35 @@
 						thisElement.addClass('remove');
 						newLink = "{{ route('member.remove.favorite', ':id') }}";
 						newLink = newLink.replace(':id', data.fave_id);
-						thisElement.attr('href', newLink);	
+						thisElement.attr('href', newLink);
+						var newTitle = 'Hapus dari favorit';
+						thisElement.attr('title', newTitle).attr('data-original-title', newTitle).tooltip('update').tooltip('show');;
 					}
 				}
 			});
 		});
+
+		$(document).on('click', '.order', function(event){
+      event.preventDefault();
+      var thisElement = $(this);
+      var link = thisElement.attr('href');
+      var product_id = thisElement.closest('.item').find('#product_id').val();
+      var order_id = $('#order_id');
+      $.ajax({
+        url: link,
+        method: 'POST',
+        data:{product_id:product_id, order_id:order_id.val()},
+        success:function(data){
+          callSuccessAlert(data.success);
+          $('#cart-item-qty').css('display', 'block').text(data.item_qty);
+          order_id.val(data.order_id);
+        },
+        error:function(request, status, error){
+          callDangerAlert(error);
+        }
+      });
+
+    });
 
 	});
 </script>

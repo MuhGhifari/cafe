@@ -13,15 +13,15 @@
           @if(Route::has('login'))
             @auth
               @if(auth()->user()->role == 'kasir')
-              <li class="active"><a href="{{ route('kasir.index') }}">Pesanan Baru</a></li>
-              <li><a href="#">Pesanan Online</a></li>
+              <li class="{{ Request::routeIs('kasir.index') ? 'active' : '' }}"><a  href="{{ route('kasir.index') }}">Pesanan Baru</a></li>
+              <li class="{{ Request::routeIs('kasir.online.payment') ? 'active' : '' }}"><a href="{{ route('kasir.online.payment') }}">Pesanan Online</a></li>
               @elseif(auth()->user()->role == 'member')
-              <li class="active"><a href="{{ route('home') }}">Home</a></li>
+              <li class="{{ Request::routeIs('home') ? 'active' : '' }}"><a href="{{ route('home') }}">Home</a></li>
               <li><a href="">Contact</a></li>
               <li><a href="">Special Offer</a></li>
               @endif
             @else
-            <li class="active"><a href="{{ route('home') }}">Home</a></li>
+            <li class="{{ Request::routeIs('home') ? 'active' : '' }}"><a href="{{ route('home') }}">Home</a></li>
             <li><a href="">Contact</a></li>
             <li><a href="">Special Offer</a></li>
             @endauth
@@ -37,12 +37,26 @@
               <div>{{ auth()->user()->name }}</div>
               <span class="arrow_carrot-down"></span>
               <ul>
+                @if(auth()->user()->role == 'member')
+                <li><a href="{{ route('member.show.favorites') }}">Favoritku</a></li>
+                <li><a href="{{ route('member.show.orders') }}">Pesanan</a></li>
+                @endif
                 <li><a href="{{ route('logout') }}">Logout</a></li>
               </ul>
             </div>
             @if(auth()->user()->role == 'member')
             <div class="header__top__right__auth">
-              <a href="{{ route('member.cart') }}" title="Keranjang"><i class="fa fa-shopping-bag"></i></a>
+              @if(Request::routeis('member.cart'))
+              <a class="keranjang" href="{{ route('member.cart') }}" style="position: relative;" data-toggle="tooltip" data-placement="bottom" title="Keranjang"><i class="fa fa-shopping-bag"></i></a>
+              @else
+              <a class="keranjang" href="{{ route('member.cart') }}" style="position: relative;" data-toggle="tooltip" data-placement="bottom" title="Keranjang"><i class="fa fa-shopping-bag"></i>
+                @if(auth()->user()->waitingOrder->first() == null)
+                <span id="cart-item-qty" style="display: none;"></span>
+                @else
+                <span id="cart-item-qty">{{ count(auth()->user()->waitingOrder->first()->orderItems) }}</span>
+                @endif
+              </a>
+              @endif
             </div>
             @endif
             @else

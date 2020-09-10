@@ -1,3 +1,4 @@
+
 <div class="row">
   @if(count($products) < 1)
   <div class="col-md-12 text-center">

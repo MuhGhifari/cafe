@@ -1539,7 +1539,7 @@ ol {
 }
 
 .product__item__pic {
-	height: 270px;
+	height: 100%;
 	position: relative;
 	overflow: hidden;
 }
@@ -1547,7 +1547,7 @@ ol {
 .product__item__pic__hover {
 	position: absolute;
 	left: 0;
-	bottom: -50px;
+	bottom: -60px;
 	width: 100%;
 	text-align: center;
 	-webkit-transition: all, 0.5s;

@@ -5,28 +5,12 @@
 	.hero__search__form {
 		width: 100%;
 	}
-
-	.btn-success {
-	   background-color: #7fad39;
-	}
-
-	.btn-success:hover {
-	   background-color: #709834;
-	}
- 
-	.btn-success:active {
-	   background-color: #59792a;
-	}
- 
-	.btn-success:click {
-	   background-color: #59792a;
-	}
 </style>
 @endsection
 
 @section('content')
   <!-- Shoping Cart Section Begin -->
-	<section class="shoping-cart spad p-2">
+	<section class="shoping-cart spad p-0">
 		<div class="row">
 			<div class="col-lg-7 p-4" style="background: #f2f2f2;">
 				<div class="row justify-content-center">
@@ -79,12 +63,12 @@
 				<div class="row">
 					<div class="col-12">
 						<div class="shoping__cart__table">
-							<table>
+							<table id="cart-table">
 								<thead>
 									<tr>
 										<th class="shoping__product" colspan="2">Produk</th>
 										<th>Harga</th>
-										<th>Jumlah</th>
+										<th width="18%">Jumlah</th>
 										<th>Total</th>
 										<th></th>
 									</tr>
@@ -93,6 +77,8 @@
 									@if(count(auth()->user()->waitingOrder) > 0)
 									@foreach($cart as $item)
 									<tr>
+										<input type="hidden" name="price" id="item_price" value="{{ $item->product->price }}">
+										<input type="hidden" name="item_id" id="item_id" value="{{ $item->id }}">
 										<td align="left" width="15%">
 											<img style="height: 80px; width: 80px;" src="{{ asset('img/products/'. $item->product->image) }}">
 										</td>
@@ -103,8 +89,19 @@
 											{{ rupiah($item->product->price) }}
 										</td>
 										<td width="14%">
-											<input type="hidden" id="order_item_id" name="order_item_id" value="{{ $item->id }}">
-											<input type="number" class="quantity form-control" id="quantity" name="quantity" value="{{ $item->quantity }}" min="1" max="{{ $item->product->stock }}" onkeydown="return false">
+											<div class="input-group inline-group">
+		                    <div class="input-group-prepend">
+		                      <button class="btn btn-success btn-minus btn-sm">
+		                        <i class="fa fa-minus"></i>
+		                      </button>
+		                    </div>
+		                    <input class="form-control quantity" style="text-align: center;" min="1" max="{{ $item->product->stock }}" name="quantity" id="quantity" value="{{ $item->quantity }}" type="number" disabled>
+		                    <div class="input-group-append">
+		                      <button class="btn btn-success btn-plus btn-sm">
+		                        <i class="fa fa-plus"></i>
+		                      </button>
+		                    </div>
+                  		</div>
 										</td>
 										<td class="item-total">
 											{{ rupiah($item->product->price * $item->quantity)}}
@@ -205,7 +202,7 @@
 			var query = $('#search').val();
 			var page = $('#hidden_page').val();
 			fetch_data(page, query);
-		}, 400));//delay 400 miliseconds
+		}, 200));//delay 400 miliseconds
 
 		//pagination
 		$(document).on('click', '.product__pagination a', function(event){
@@ -236,21 +233,48 @@
 			}
 		});
 
-		$(document).on('change', '#quantity', function(){
-			var order_item_id = $(this).closest('td').find('#order_item_id').val();
-			var quantity = $(this).val();
-			var thisElement = $(this); // inisiasi element untuk ajax
+		function hitungTotalCart(){
+      var cart_total = 0;
+      $('#cart-table > tbody  > tr').each(function(){
+        var price = $(this).find('#item_price').val();
+        var qty = $(this).find('#quantity').val();
+        cart_total += price * qty;
+      });
+      $('#cart-total').html('Rp ' + formatRibuan(cart_total));
+    }
+    
+    $(document).on('click', '.btn-plus, .btn-minus', function(e) {
+      const isNegative = $(e.target).closest('.btn-minus').is('.btn-minus');
+      const input = $(e.target).closest('.input-group').find('input');
+      if (input.is('input')) { 
+        input[0][isNegative ? 'stepDown' : 'stepUp']()
+
+      }
+
+      input.attr('value', input.val()).trigger('change'); 
+
+      var qtyInput = $(this).closest('tr').find('#quantity').val();
+      var itemID = $(this).closest('tr').find('#item_id').val();
+      var item_price = $(this).closest('tr').find('#item_price').val();
+      var item_total_value = qtyInput * item_price;
+      var item_total = $(this).closest('tr').find('#item_total');
+      item_total.html('Rp ' + formatRibuan(item_total_value));
+
+      hitungTotalCart();
+    });
+
+		$(document).on('change','#quantity', delay(function(){
+			var qtyInput = $(this).val();
+			var itemID = $(this).closest('tr').find('#item_id').val();
 			$.ajax({
-				url: "{{ route('kasir.add.item.quantity') }}",
-				method: 'POST',
-				data:{order_item_id:order_item_id, quantity:quantity},
-				success:function(data){
-					thisElement.closest('tr').find('.item-total').html('Rp ' + formatRupiah(data.total));
-					$('#cart-total').html('Rp. '+ formatRupiah(data.cart_total));
-					// elemen '$(this)' tidak bisa dipakai lagi di ajax
+				url:"{{ route('kasir.add.item.quantity') }}",
+				method: "POST",
+				data:{quantity: qtyInput, order_item_id: itemID},
+				error:function(error){
+					callDangerAlert(error);
 				}
-			});	
-		});
+			});
+		}, 1000));
 
 		// hapus item dari cart
 		$(document).on('click', '.remove-btn', function(event){
@@ -307,8 +331,9 @@
 			return prefix == undefined ? rupiah : (rupiah ? 'Rp. ' + rupiah : '');
 		}
 
+
 		// format satuan angka
-		function formatRupiah(bilangan){
+		function formatRibuan(bilangan){
 			var	number_string = bilangan.toString(),
 				sisa 	= number_string.length % 3,
 				rupiah 	= number_string.substr(0, sisa),
@@ -354,7 +379,7 @@
 					kembalian = tunai - total;
 					$('#kembalian-container').css('display', 'block');
 					$('#kembalian_value').val(kembalian);
-					$('#kembalian').html('Rp ' + formatRupiah(kembalian));
+					$('#kembalian').html('Rp ' + formatRibuan(kembalian));
 					$(this).css('display', 'none');
 					$('#tunai').prop('disabled', true);
 					$('#remove-order-btn').css('display', 'none');
@@ -435,22 +460,6 @@
 	     	}
 			});
 		});
-
-		//function pencarian awal
-		// $.ajaxSetup({ headers: { 'csrftoken' : '{{ csrf_token() }}' } });
-		
-		// const all = document.getElementById('result');
-		// $('#search').keyup(function(){
-		// 	var value = $(this).val();
-		// 		$.ajax({
-		// 			type : 'get',
-		// 			url : "{{ route('kasir.search') }}",
-		// 			data:{'search':value},
-		// 			success:function(data){
-		// 				$('#result').html(data);
-		// 			}
-		// 		});
-		// });
 	});
 
 </script>

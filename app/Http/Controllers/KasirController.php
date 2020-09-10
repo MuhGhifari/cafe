@@ -82,11 +82,15 @@ class KasirController extends Controller
     $transaction->save();
     $order->status = 'selesai';
     $order->save();
-    $output = 
-    '<div class="col-md-12 text-center">
-      <h5>Belum ada pesanan</h5>
-    </div>';
-    return response()->json(['message' => 'Transaksi berhasil!', 'output' => $output]);
+    if ($request->ajax()) {
+      $output = 
+      '<div class="col-md-12 text-center">
+        <h5>Belum ada pesanan</h5>
+      </div>';
+      return response()->json(['message' => 'Transaksi berhasil!', 'output' => $output]);
+    }else{
+      return redirect()->route('kasir.online.payment');
+    }
   }
 
   public function deleteOrder($order_id){
@@ -132,8 +136,19 @@ class KasirController extends Controller
           rupiah($item->product->price) .
         '</td>'.
         '<td width="14%">'.
-          '<input type="hidden" id="order_item_id" name="order_item_id" value="'. $item->id .'">'.
-          '<input type="number" class="quantity form-control" id="quantity" name="quantity" value="'. $item->quantity .'" min="1" max="'. $item->product->stock .'" onkeydown="return false">'.
+         '<div class="input-group inline-group">
+            <div class="input-group-prepend">
+              <button class="btn btn-success btn-minus btn-sm">
+                <i class="fa fa-minus"></i>
+              </button>
+            </div>
+            <input class="form-control quantity" style="text-align: center;" min="1" max="'.$item->product->stock.'" name="quantity" id="quantity" value="'.$item->quantity.'" type="number" disabled>
+            <div class="input-group-append">
+              <button class="btn btn-success btn-plus btn-sm">
+                <i class="fa fa-plus"></i>
+              </button>
+            </div>
+          </div>'.
         '</td>'.
         '<td class="item-total">'.
           rupiah($item->product->price * $item->quantity) .
@@ -208,4 +223,18 @@ class KasirController extends Controller
       return view('kasir.product_data', compact('products'))->render();
     }
   }    
+
+  public function showOnlinePayment(){
+    return view('kasir.online_payment');
+  }
+
+  public function findOnlineOrder(Request $request){
+    $invoice = $request->invoice;
+    $order = Order::where('invoice', $invoice)->where('status', 'dipesan')->first();
+    $total = 0;
+    foreach ($order->orderItems as $key => $item) {
+      $total += $item->product->price * $item->quantity;
+    }
+    return view('kasir.invoice_data', compact('order', 'total'))->render();
+  }
 }

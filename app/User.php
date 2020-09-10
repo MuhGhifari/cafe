@@ -45,6 +45,10 @@ class User extends Authenticatable
         return $this->orders()->where('status', '=', 'menunggu');
     }
 
+    public function reservedOrders(){
+        return $this->orders()->where('status', '=', 'diproses')->orderBy('updated_at', 'DESC');
+    }
+
     public function finishedOrder(){
         return $this->orders()->where('status', '=', 'selesai');
     }

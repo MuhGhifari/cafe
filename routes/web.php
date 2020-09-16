@@ -31,12 +31,13 @@ Route::prefix('/admin')->name('admin.')->middleware('admin')->group(function(){
 
 
   // Products
-  Route::get('/product','HomeController@product')->name('product');
-  Route::get('/created','HomeController@created')->name('productcreate');
-  Route::post('/stored','HomeController@stored')->name('productstore');
-  Route::get('/edited/{$id}','HomeController@edited')->name('productedit');
-  Route::delete('/destriyed/{id}','HomeController@destroyed')->name('destroyed');
-  Route::get('/laporan', 'HomeController@cetak_pdf')->name('cetak');
+  Route::get('/product','AdminController@product')->name('product');
+  Route::get('/created','AdminController@created')->name('productcreate');
+  Route::post('/stored','AdminController@stored')->name('productstore');
+  Route::get('/edited/{$id}','AdminController@edited')->name('productedit');
+  Route::delete('/destriyed/{id}','AdminController@destroyed')->name('destroyed');
+  Route::get('/laporan', 'AdminController@cetak_pdf')->name('cetak');
+ 
 
  });
  

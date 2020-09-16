@@ -35,7 +35,7 @@ Route::prefix('/admin')->name('admin.')->middleware('admin')->group(function(){
   Route::get('/created','AdminController@created')->name('productcreate');
   Route::post('/stored','AdminController@stored')->name('productstore');
   Route::get('/edited/{$id}','AdminController@edited')->name('productedit');
-  Route::delete('/destriyed/{id}','AdminController@destroyed')->name('destroyed');
+  Route::delete('/destroyed/{id}','AdminController@destroyed')->name('destroyed');
   Route::get('/laporan', 'AdminController@cetak_pdf')->name('cetak');
  
 

@@ -39,9 +39,6 @@ class HomeController extends Controller
     }
 
 
-    public function destroyed($id){
-        DB::table('products')->where('id','=',$id)->delete();
-        return redirect()->route('admin.product')->with('message','Success Deleted');
-    }
+    
 
 }

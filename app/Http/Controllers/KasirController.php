@@ -230,7 +230,7 @@ class KasirController extends Controller
 
   public function findOnlineOrder(Request $request){
     $invoice = $request->invoice;
-    $order = Order::where('invoice', $invoice)->where('status', 'dipesan')->first();
+    $order = Order::where('invoice', $invoice)->where('status', 'diproses')->first();
     $total = 0;
     foreach ($order->orderItems as $key => $item) {
       $total += $item->product->price * $item->quantity;

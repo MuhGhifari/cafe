@@ -6,7 +6,6 @@
 .card{
     box-shadow:  0 20px 20px 0 rgba(0,0,0,0.3);
 }
-
 </style>
 
 
@@ -17,7 +16,7 @@
     <div class="bg-light border-right" id="sidebar-wrapper">
       <div class="sidebar-heading">DALGONA</div>
       <div class="list-group list-group-flush">
-        <a href="#" class="list-group-item list-group-item-action bg-light">Dashboard</a>
+        <a href="{{ route('admin.index') }}" class="list-group-item list-group-item-action bg-light">Dashboard</a>
         <a href="{{ route('admin.user') }}" class="list-group-item list-group-item-action bg-light">Users</a>
         <a href="{{ route('admin.product') }}" class="list-group-item list-group-item-action bg-light">Product</a>
         <a href="#" class="list-group-item list-group-item-action bg-light">Laporan</a>
@@ -85,7 +84,21 @@
                                 <td>{{ $user->name }}</td>
                                 <td>{{ $user->username }}</td>
                                 <td>{{ $user->email }}</td>
-                                <td>{{ $user->role }}</td>
+                                <td>
+                                    @if($user->role == 'admin')
+                                    <h4>
+                                        <span class="badge badge-danger" style="background: #ff6258; width: ">{{ $user->role }}</span>
+                                    </h4>
+                                    @elseif($user->role == 'kasir')
+                                    <h4>
+                                        <span class="badge badge-success">{{ $user->role }}</span>
+                                    </h4>
+                                    @elseif($user->role == 'member')
+                                    <h4>
+                                        <span class="badge badge-warning" style="color: white; background: #8862e0;">{{ $user->role }}</span>
+                                    </h4>
+                                    @endif
+                                </td>
     
                                     <td>
                                         <div class="dropdown">

@@ -5,6 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Product;
 use App\Category;
+use DB;
+use File;
+use PDF;
+use Storage;
 
 class HomeController extends Controller
 {

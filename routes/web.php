@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Str;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,9 +22,24 @@ Auth::routes();
 
 Route::prefix('/admin')->name('admin.')->middleware('admin')->group(function(){
   Route::get('/index', 'AdminController@index')->name('index');
-  Route::get('/user', 'UserController@index')->name('user');
-  Route::get('/user/create', 'UserController@create')->name('create');
-});
+  Route::get('/user', 'AdminController@user')->name('user');
+  Route::get('/create','AdminController@create')->name('create');
+  Route::post('/store','AdminController@store')->name('store');
+  Route::get('/edit/{id}','AdminController@edit')->name('edit');
+  Route::patch('/update/{id}', 'AdminController@update')->name('update');
+  Route::delete('/destroy/{id}','AdminController@destroy')->name('destroy');
+
+
+  // Products
+  Route::get('/product','HomeController@product')->name('product');
+  Route::get('/created','HomeController@created')->name('productcreate');
+  Route::post('/stored','HomeController@stored')->name('productstore');
+  Route::get('/edited/{$id}','HomeController@edited')->name('productedit');
+  Route::delete('/destriyed/{id}','HomeController@destroyed')->name('destroyed');
+  Route::get('/laporan', 'HomeController@cetak_pdf')->name('cetak');
+
+ });
+ 
 
 Route::prefix('/kasir')->name('kasir.')->middleware('kasir')->group(function(){
 

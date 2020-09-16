@@ -18,8 +18,9 @@ class CreateProductsTable extends Migration
             $table->string('name');
             $table->string('image');
             $table->integer('price');
+            $table->string('varian')->nullable();
             $table->integer('category_id');
-            $table->integer('stock');
+            $table->integer('stock')->default(0);
             $table->timestamps();
         });
     }

@@ -39,4 +39,28 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function orders(){
+        return $this->hasMany('App\Order', 'user_id');
+    }
+
+    public function waitingOrder(){
+        return $this->orders()->where('status', '=', 'menunggu');
+    }
+
+    public function reservedOrders(){
+        return $this->orders()->where('status', '=', 'diproses')->orderBy('updated_at', 'DESC');
+    }
+
+    public function finishedOrder(){
+        return $this->orders()->where('status', '=', 'selesai');
+    }
+
+    public function InvoiceList(){
+        return $this->orders()->where('invoice', '!=', '');
+    }
+
+    public function favorites(){
+        return $this->hasMany('App\Favorite', 'user_id');
+    }
 }

@@ -15,7 +15,10 @@ class CreateOrdersTable extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
             $table->integer('user_id');
+            $table->string('invoice')->unique()->nullable();
+            $table->enum('status', ['selesai', 'menunggu', 'diproses'])->default('menunggu');
             $table->timestamps();
         });
     }

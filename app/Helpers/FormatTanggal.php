@@ -1,7 +1,7 @@
 <?php 
 	// Menampilkan timestamp dalam format nama bulang dalam indonesia(tergantung localize)
 	function FormatTanggal($tanggal){
-		return \Carbon\Carbon::parse($tanggal)->formatLocalized('dd-mm-yyyy');
+		return \Carbon\Carbon::parse($tanggal)->formatLocalized('%d/%m/%Y');
 	}
 
 	function AmbilTanggal($tanggal){

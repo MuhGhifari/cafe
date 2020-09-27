@@ -8,3 +8,6 @@
 	<script src="{{ asset('js/mixitup.min.js') }}"></script>
 	<script src="{{ asset('js/owl.carousel.min.js') }}"></script>
 	<script src="{{ asset('js/main.js') }}"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+  <script src="{{ asset('js/bootstrap-input-spinner.js') }}"></script>
+  <script src="{{ asset('js/custom.js') }}"></script>

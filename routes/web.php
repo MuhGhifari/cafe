@@ -75,9 +75,10 @@ Route::prefix('/member')->name('member.')->middleware('member')->group(function(
   Route::get('/remove-item/{order_item_id}', 'MemberController@removeItem')->name('remove.item');
 
   Route::post('/save-order', 'MemberController@generateInvoice')->name('save.order');
-  Route::get('/orders/invoice', 'MemberController@showInvoiceList')->name('show.orders');
+  Route::get('/orders', 'MemberController@showInvoiceList')->name('show.orders');
   Route::get('/invoice/{invoice}', 'MemberController@showInvoice')->name('invoice');
-
+  Route::get('/cancel-order/{order_id}', 'MemberController@cancelOrder')->name('cancel.order');
+  Route::get('/show-transaction-detail/{order_id}', 'MemberController@showTransaction')->name('transaction.detail');
   Route::get('/test', 'MemberController@test')->name('test');
 });
 

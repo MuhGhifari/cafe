@@ -124,9 +124,31 @@ class MemberController extends Controller
  	}
 
  	public function showInvoiceList(){
- 		$orders = auth()->user()->reservedOrders;
+ 		$orders = auth()->user()->InvoiceList;
+    foreach ($orders as $key => $order) {
+      $total = 0;
+      foreach ($order->orderItems as $key => $item) {
+        $total += $item->quantity * $item->product->price;
+      }
+      $order->total = $total;
+    }
  		return view('member.invoice_list', compact('orders'));
  	}
+
+  public function cancelOrder($order_id){
+    $order = Order::find($order_id);
+    $order->delete();
+    return redirect()->route('member.show.orders');
+  }
+
+  public function showTransaction($order_id){
+    $transaction = Transaction::where('order_id', $order_id)->first();
+    $transaction->kasir = $transaction->cashier->name;
+    $transaction->invoice = $transaction->order->invoice;
+    $transaction->pemesan = $transaction->order->name;
+    $transaction->tanggal = Carbon::parse($transaction->created_at)->format('d-m-yy h:i:s');
+    return response()->json($transaction);
+  }
 
   public function saveFavorite($product_id){
   	$faves = auth()->user()->favorites;

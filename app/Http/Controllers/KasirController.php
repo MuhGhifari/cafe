@@ -78,7 +78,6 @@ class KasirController extends Controller
     $transaction->cash = $request->cash;
     $transaction->total = $request->total;
     $transaction->type = $type;
-    $transaction->date = date(now());
     $transaction->save();
     $order->status = 'selesai';
     $order->save();

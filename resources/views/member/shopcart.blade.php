@@ -68,19 +68,19 @@
                   {{ rupiah($item->product->price) }}
                 </td>
                 <td class="text-center">
-                      <div class="input-group inline-group">
-                        <div class="input-group-prepend">
-                          <button class="btn btn-success btn-minus">
-                            <i class="fa fa-minus"></i>
-                          </button>
-                        </div>
-                        <input class="form-control quantity" min="1" max="{{ $item->product->stock }}" name="quantity" id="quantity" value="{{ $item->quantity }}" type="number" disabled>
-                        <div class="input-group-append">
-                          <button class="btn btn-success btn-plus">
-                            <i class="fa fa-plus"></i>
-                          </button>
-                        </div>
-                      </div>
+                  <div class="input-group inline-group">
+                    <div class="input-group-prepend">
+                      <button class="btn btn-success btn-minus">
+                        <i class="fa fa-minus"></i>
+                      </button>
+                    </div>
+                    <input class="form-control quantity" min="1" max="{{ $item->product->stock }}" name="quantity" id="quantity" value="{{ $item->quantity }}" type="number" disabled>
+                    <div class="input-group-append">
+                      <button class="btn btn-success btn-plus">
+                        <i class="fa fa-plus"></i>
+                      </button>
+                    </div>
+                  </div>
                 </td>
                 <td class="shoping__cart__total" id="item_total">
                   {{ rupiah($item->product->price * $item->quantity) }}
@@ -142,6 +142,7 @@
         timer = setTimeout(fn.bind(this, ...args), ms || 0)
       }
     }
+    
     // format satuan angka
     function formatRibuan(bilangan){
       var number_string = bilangan.toString(),
@@ -197,7 +198,7 @@
           callDangerAlert(error);
         }
       });    
-    }, 700));
+    }, 400));
 
     // hapus item dari cart
     $(document).on('click', '.remove-btn', function(event){

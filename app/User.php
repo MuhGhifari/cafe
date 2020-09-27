@@ -56,6 +56,10 @@ class User extends Authenticatable
         return $this->orders()->where('status', '=', 'selesai');
     }
 
+    public function InvoiceList(){
+        return $this->orders()->where('invoice', '!=', '');
+    }
+
     public function favorites(){
         return $this->hasMany('App\Favorite', 'user_id');
     }

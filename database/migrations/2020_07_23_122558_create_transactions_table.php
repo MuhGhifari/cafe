@@ -21,7 +21,7 @@ class CreateTransactionsTable extends Migration
             $table->integer('total');
             $table->integer('cash');
             $table->integer('change');
-            $table->date('date');
+            $table->timestamps();
         });
     }
 

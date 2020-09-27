@@ -10,7 +10,3 @@
 	<link rel="stylesheet" href="{{ asset ('css/slicknav.min.css') }}" type="text/css">
 	<link rel="stylesheet" href="{{ asset ('css/style.css') }}" type="text/css">
   <link rel="stylesheet" href="{{ asset ('css/custom.css') }}" type="text/css">
-	<link rel="stylesheet" href="{{ asset ('css/style.css') }}" type="text/css">
-	<link rel="stylesheet" type="text/css" href="{{ ('css/util.css') }}">
-	<link rel="stylesheet" type="text/css" href="{{ ('css/main.css') }}">
-	<link rel="stylesheet" type="text/css" href="{{ ('css-hamburgers/hamburgers.min.css') }}">

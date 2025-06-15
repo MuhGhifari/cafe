@@ -14,32 +14,12 @@
 
 	<!-- Styles -->
    @include('partials.css')
-   <style type="text/css">
-   	a.keranjang span{
-   		height: 13px;
-   		width: 13px;
-   		background: #7fad39;
-   		font-size: 10px;
-   		color: #ffffff;
-   		line-height: 13px;
-   		text-align: center;
-   		font-weight: 700;
-   		display: inline-block;
-   		border-radius: 50%;
-   		position: absolute;
-   		top: 0;
-   		right: -12px;
-   	}
-   </style>
-   @yield('stylesheets')
 </head>
 <body>
-      @include('partials.modal')
-	  	@include('partials.nav')
-		@yield('content')
-      @include('partials.footer')
+	  <main class="py-4">
+			@yield('content')
+		</main>
 </body>
  	<!-- Scripts -->
  	@include('partials.js')
- 	@yield('scripts')
 </html>

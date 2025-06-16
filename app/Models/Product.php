@@ -10,18 +10,23 @@ class Product extends Model
 
     public function favorites()
     {
-        return $this->hasMany(Favorite::class, 'product_id');
+        return $this->hasMany('App\Models\Favorite', 'product_id');
     }
 
-    public function isFavorited()
+    public function favorited()
     {
-        return $this->favorites->where('user_id', auth()->id())->isNotEmpty();
+        $bingo = false;
+        foreach ($this->favorites as $key => $favorite) {
+            if ($favorite->user_id == auth()->user()->id) {
+                $bingo = true;
+            }
+        }
+        return $bingo;
     }
 
-    public function getFavoriteId()
+    public function getFaveId()
     {
-        return Favorite::where('user_id', auth()->id())
-                       ->where('product_id', $this->id)
-                       ->value('id'); // returns null if not found
+        $fave = Favorite::where('user_id', auth()->user()->id)->where('product_id', $this->id)->first();
+        return $fave->id;
     }
 }

@@ -34,7 +34,13 @@
     "autoload-dev": {
         "psr-4": {
             "Tests\\": "tests/"
-        }
+        },
+        "files": [
+            "app/Helpers/FormatUang.php",
+            "app/Helpers/interval.php",
+            "app/Helpers/FormatTanggal.php",
+            "app/Helpers/simpleEncrypt.php"
+        ]
     },
     "scripts": {
         "post-autoload-dump": [

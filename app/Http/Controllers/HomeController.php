@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Category;
+use App\Models\Product;
 
 class HomeController extends Controller
 {
@@ -21,8 +23,9 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index()
-    {
-        return view('home');
+    public function index(){
+        $products = Product::orderBy('created_at', 'DESC')->paginate(9);
+        $categories = Category::all();
+        return view('home', compact('products', 'categories'));
     }
 }

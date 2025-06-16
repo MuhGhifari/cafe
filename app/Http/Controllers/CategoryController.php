@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\Product;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
@@ -51,6 +52,7 @@ class CategoryController extends Controller
     /**
      * Show the form for editing the specified category.
      */
+
     public function edit($id)
     {
         $category = Category::findOrFail($id);
@@ -84,4 +86,10 @@ class CategoryController extends Controller
 
         return redirect()->route('admin.category.index')->with('message', 'Category deleted successfully.');
     }
+
+    public function showCategory($id, $slug){
+        $products = Product::where('category_id', $id)->paginate(9);
+        $categories = Category::all();
+        return view('home', compact('products', 'categories'));
+    } 
 }

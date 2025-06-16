@@ -118,4 +118,12 @@ class ProductController extends Controller
 
         return redirect()->route('admin.product')->with('message', 'Product deleted successfully.');
     }
+    public function search(Request $request){
+    if ($request->ajax()) {
+      $query = $request->get('query');
+      $query = str_replace(" ", "%", $query);
+      $products = Product::orderBy('name', 'ASC')->where('name', 'LIKE', '%'.$query."%")->paginate(9);
+      return view('partials.product_data', compact('products'))->render();
+    }
+  }  
 }
